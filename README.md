@@ -27,4 +27,4 @@ A [Claude Code plugin marketplace](https://docs.claude.com/en/docs/claude-code/p
 
 ## License
 
-[Apache-2.0](LICENSE). The wrapped MCP servers (`@rethunk/mcp-multi-root-git`, `@rethunk/github-mcp`) are distributed separately by Rethunk-AI under their own MIT licenses.
+[Apache-2.0](LICENSE). The wrapped MCP servers (`@rethunk/mcp-multi-root-git`, `@rethunk/github-mcp`, `@rethunk/citadel-sdd`) are distributed separately by Rethunk-AI under their own MIT licenses.
