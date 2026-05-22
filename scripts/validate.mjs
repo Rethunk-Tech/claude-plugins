@@ -23,22 +23,22 @@ if (mk) {
   if (!mk.name) err('marketplace.json: missing "name"');
   if (!mk.owner?.name) err('marketplace.json: missing "owner.name"');
   if (!Array.isArray(mk.plugins)) err('marketplace.json: "plugins" must be an array');
+  const plugins = Array.isArray(mk.plugins) ? mk.plugins : [];
 
   const seen = new Set();
 
-  for (const entry of mk.plugins ?? []) {
+  for (const entry of plugins) {
     const label = entry?.name ?? "(unnamed entry)";
-    if (!entry.name) {
+    if (!entry?.name) {
       err("marketplace.json: a plugin entry is missing \"name\"");
       continue;
     }
     if (seen.has(entry.name)) err(`plugin "${label}": duplicate marketplace entry`);
     seen.add(entry.name);
 
-    if (typeof entry.source !== "string") {
-      err(`plugin "${label}": only string sources are validated here`);
-      continue;
-    }
+    // Object sources (github, git-subdir, url, npm) are valid — see AGENTS.md.
+    // They point outside this repo, so there is nothing local to cross-check; skip.
+    if (typeof entry.source !== "string") continue;
     // `source` resolves relative to the marketplace root — see AGENTS.md.
     const dir = join(root, entry.source);
     if (!existsSync(dir)) {
@@ -55,6 +55,9 @@ if (mk) {
     if (!manifest) continue;
     if (manifest.name !== entry.name) {
       err(`plugin "${label}": plugin.json name "${manifest.name}" != marketplace entry name`);
+    }
+    if (!manifest.version) {
+      err(`plugin "${label}": plugin.json has no "version" — Claude Code would track the commit SHA and silently update every installed user`);
     }
 
     const mcpPath = join(dir, ".mcp.json");

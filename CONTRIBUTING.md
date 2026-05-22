@@ -21,7 +21,7 @@ There is no build or dependency install — this repository is JSON manifests an
 
 ## Validation
 
-`scripts/validate.mjs` parses every manifest, cross-checks each marketplace entry `name` against its `plugin.json` `name`, confirms `source` paths resolve, asserts version pins match `plugin.json` `version`, and rejects hardcoded secrets in `.mcp.json`. CI (`.github/workflows/ci.yml`) runs it on every PR and push to `main`. Run it locally before committing:
+`scripts/validate.mjs` parses every manifest, cross-checks each marketplace entry `name` against its `plugin.json` `name`, confirms relative-path `source` values resolve (object-form sources — `github`/`git-subdir`/`url`/`npm` — are accepted and skipped), requires each `plugin.json` to declare a `version`, asserts version pins match it, and rejects hardcoded secrets in `.mcp.json`. CI (`.github/workflows/ci.yml`) runs it on every PR and push to `main`. Run it locally before committing:
 
 ```sh
 node scripts/validate.mjs                          # full catalog check (what CI runs)

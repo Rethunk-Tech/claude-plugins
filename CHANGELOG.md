@@ -7,6 +7,15 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Fixed
+
+- **`scripts/validate.mjs` failed CI on valid object-form plugin sources.** A non-string `source` (`github`, `git-subdir`, `url`, `npm` — all documented as supported in [AGENTS.md](AGENTS.md)) was reported as an error, so CI would reject a correct manifest the first time a plugin was re-exported from another repo. Object sources are now accepted and skipped (nothing local to cross-check).
+- `validate.mjs` no longer crashes with an uncaught `TypeError` when `marketplace.json` has a non-array `plugins` value or a `null` plugin entry — these now surface as clean validation errors.
+
+### Changed
+
+- `validate.mjs` now requires every `plugin.json` to declare a `version`. Without one, Claude Code tracks the commit SHA and silently updates all installed users — the validator now catches this.
+
 ## [1.1.0] — 2026-05-22
 
 ### Added
