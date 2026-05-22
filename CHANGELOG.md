@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [1.2.0] — 2026-05-22
+
 ### Fixed
 
 - **`scripts/validate.mjs` failed CI on valid object-form plugin sources.** A non-string `source` (`github`, `git-subdir`, `url`, `npm` — all documented as supported in [AGENTS.md](AGENTS.md)) was reported as an error, so CI would reject a correct manifest the first time a plugin was re-exported from another repo. Object sources are now accepted and skipped (nothing local to cross-check).
@@ -46,6 +48,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Repository documentation tier: `README.md`, `HUMANS.md`, `AGENTS.md`, `CONTRIBUTING.md`, `SECURITY.md`, and per-plugin `README.md` files.
 - `CODEOWNERS`, Apache-2.0 `LICENSE`.
 
-[Unreleased]: https://github.com/Rethunk-Tech/claude-plugins/compare/v1.1.0...HEAD
+[Unreleased]: https://github.com/Rethunk-Tech/claude-plugins/compare/v1.2.0...HEAD
+[1.2.0]: https://github.com/Rethunk-Tech/claude-plugins/compare/v1.1.0...v1.2.0
 [1.1.0]: https://github.com/Rethunk-Tech/claude-plugins/compare/v1.0.0...v1.1.0
 [1.0.0]: https://github.com/Rethunk-Tech/claude-plugins/releases/tag/v1.0.0
