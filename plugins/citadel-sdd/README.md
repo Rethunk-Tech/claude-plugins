@@ -11,7 +11,7 @@ Tools register under the `citadel-sdd` server name and appear as `mcp__citadel-s
 | npmjs | [`@rethunk/citadel-sdd`](https://www.npmjs.com/package/@rethunk/citadel-sdd) |
 | GitHub Packages | `@rethunk-ai/citadel-sdd` |
 
-> **Pre-publication note:** this plugin pins `@rethunk/citadel-sdd@0.5.0`. As of 2026-05-22 that version is not yet on npmjs — installs will fail until Rethunk-AI publishes it. Bump the pin in `.mcp.json` and `plugin.json` once a release lands.
+This plugin pins the **npmjs** package at an exact version. Bump the pin in `.mcp.json` and `plugin.json` together when adopting a newer release.
 
 ## Requirements
 

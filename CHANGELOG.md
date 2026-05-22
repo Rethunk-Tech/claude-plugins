@@ -9,9 +9,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [1.1.0] — 2026-05-22
+
 ### Added
 
-- **`citadel-sdd`** plugin — bundles the `@rethunk/citadel-sdd` Citadel Spec-Driven Development MCP server, pinned to `0.5.0`. That version is not yet published to npmjs; the plugin works once Rethunk-AI publishes the release.
+- **`citadel-sdd`** plugin — bundles the `@rethunk/citadel-sdd` Citadel Spec-Driven Development MCP server, pinned to `0.5.0`. Local-only, no token.
 
 ## [1.0.0] — 2026-05-22
 
@@ -23,7 +25,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Repository documentation tier: `README.md`, `HUMANS.md`, `AGENTS.md`, `CONTRIBUTING.md`, `SECURITY.md`, and per-plugin `README.md` files.
 - `CODEOWNERS`, Apache-2.0 `LICENSE`.
 
-[Unreleased]: https://github.com/Rethunk-Tech/claude-plugins/compare/v1.0.0...HEAD
+[Unreleased]: https://github.com/Rethunk-Tech/claude-plugins/compare/v1.1.0...HEAD
+[1.1.0]: https://github.com/Rethunk-Tech/claude-plugins/compare/v1.0.0...v1.1.0
 [1.0.0]: https://github.com/Rethunk-Tech/claude-plugins/releases/tag/v1.0.0
 
 <!-- markdownlint-enable MD024 -->

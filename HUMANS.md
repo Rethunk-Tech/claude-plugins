@@ -44,8 +44,6 @@ Bundles the Citadel Spec-Driven Development MCP server (`@rethunk/citadel-sdd`).
 
 **Requirements:** Node.js ≥ 22; Git ≥ 2.28 (the server's file-system and commit tools shell out to `git`). No token needed.
 
-> **Pre-publication note:** this plugin pins `@rethunk/citadel-sdd@0.5.0`, which is not yet on npmjs as of 2026-05-22. Installing `citadel-sdd` will fail until Rethunk-AI publishes that release; the pin is in place so the plugin works the moment it lands.
-
 ## Source registries
 
 Each MCP server is published under two names. The plugins here pin the **npmjs** package with an exact version, so installs need no extra registry configuration.
