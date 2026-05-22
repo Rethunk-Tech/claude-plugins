@@ -7,6 +7,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Fixed
+
+- **Plugin installs failed with "Source path does not exist."** Each `marketplace.json` plugin `source` was a bare `"./<name>"` paired with `metadata.pluginRoot: "plugins"`, but the installed Claude Code does not prepend `pluginRoot` — it resolves `source` relative to the marketplace root. Sources are now the full path (`"./plugins/<name>"`) and `metadata.pluginRoot` is removed.
+
+### Changed
+
+- Renamed the marketplace from `rethunk-marketplace` to **`rethunk-plugins`**. Installs are now `<plugin>@rethunk-plugins`. Anyone who added the old marketplace must re-add it.
+
 ### Added
 
 - **CI** (`.github/workflows/ci.yml`) — runs `scripts/validate.mjs` on every PR and push: parses every manifest, cross-checks marketplace ↔ plugin `name`, verifies `source` paths resolve, asserts version pins match `plugin.json`, and rejects hardcoded secrets.

@@ -1,29 +1,26 @@
 {
   "$schema": "https://www.schemastore.org/claude-code-marketplace.json",
-  "name": "rethunk-marketplace",
+  "name": "rethunk-plugins",
   "version": "1.1.0",
   "description": "Rethunk's catalog of Claude Code plugins — prompts, agents, and MCP servers.",
   "owner": {
     "name": "Rethunk-Tech",
     "email": "oss@rethunk.tech"
   },
-  "metadata": {
-    "pluginRoot": "plugins"
-  },
   "plugins": [
     {
       "name": "rethunk-git",
-      "source": "./rethunk-git",
+      "source": "./plugins/rethunk-git",
       "description": "Multi-root git MCP server: status, inventory, HEAD parity, diffs, batch commit, push, merge, worktrees."
     },
     {
       "name": "rethunk-github",
-      "source": "./rethunk-github",
+      "source": "./plugins/rethunk-github",
       "description": "GitHub rollup MCP server: multi-repo dashboards, PR preflight, CI diagnosis, releases, and write tools."
     },
     {
       "name": "citadel-sdd",
-      "source": "./citadel-sdd",
+      "source": "./plugins/citadel-sdd",
       "description": "Citadel Spec-Driven Development MCP server: spec lifecycle, task tracking, lint, and status for agent workflows."
     }
   ]

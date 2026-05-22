@@ -15,12 +15,12 @@ Refresh later with `claude plugin marketplace update`.
 ## Install plugins
 
 ```sh
-claude plugin install rethunk-git@rethunk-marketplace
-claude plugin install rethunk-github@rethunk-marketplace
-claude plugin install citadel-sdd@rethunk-marketplace
+claude plugin install rethunk-git@rethunk-plugins
+claude plugin install rethunk-github@rethunk-plugins
+claude plugin install citadel-sdd@rethunk-plugins
 ```
 
-`rethunk-marketplace` is the marketplace `name` (from `marketplace.json`) — it does not have to match the repository name. Add `--scope user|project|local` to control where the install is recorded.
+`rethunk-plugins` is the marketplace `name` (from `marketplace.json`) — it does not have to match the repository name (`claude-plugins`). Add `--scope user|project|local` to control where the install is recorded.
 
 Manage installed plugins with `claude plugin disable <name>` / `claude plugin enable <name>`.
 

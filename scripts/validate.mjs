@@ -24,7 +24,6 @@ if (mk) {
   if (!mk.owner?.name) err('marketplace.json: missing "owner.name"');
   if (!Array.isArray(mk.plugins)) err('marketplace.json: "plugins" must be an array');
 
-  const pluginRoot = mk.metadata?.pluginRoot ?? "";
   const seen = new Set();
 
   for (const entry of mk.plugins ?? []) {
@@ -40,7 +39,8 @@ if (mk) {
       err(`plugin "${label}": only string sources are validated here`);
       continue;
     }
-    const dir = join(root, pluginRoot, entry.source);
+    // `source` resolves relative to the marketplace root — see AGENTS.md.
+    const dir = join(root, entry.source);
     if (!existsSync(dir)) {
       err(`plugin "${label}": source path does not resolve — ${entry.source}`);
       continue;

@@ -15,7 +15,7 @@ There is no build or dependency install — this repository is JSON manifests an
 1. Create `plugins/<plugin-name>/.claude-plugin/plugin.json` with at least `name` (kebab-case, matching the directory) and a semver `version`.
 2. Add the plugin's components at the plugin root — `.mcp.json`, `commands/`, `skills/`, `agents/`, and/or `hooks/`.
 3. Add a `plugins/<plugin-name>/README.md` describing what the plugin adds.
-4. Register the plugin in `.claude-plugin/marketplace.json` under `plugins[]` with a matching `name` and a `source` (`"./<plugin-name>"` — `metadata.pluginRoot` prepends `plugins/`).
+4. Register the plugin in `.claude-plugin/marketplace.json` under `plugins[]` with a matching `name` and a `source` — the full path relative to the marketplace root, e.g. `"./plugins/<plugin-name>"`.
 5. For MCP servers wrapped from npm, pin an **exact** version (`@scope/pkg@x.y.z`) and keep it in lockstep with the `plugin.json` `version`.
 6. Never put secrets in `.mcp.json` — forward them from the environment with `${VAR}`.
 

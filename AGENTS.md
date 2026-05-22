@@ -39,7 +39,7 @@ Current plugins, all pure MCP re-exports of servers maintained in `Rethunk-AI/`:
 
 There is no build or run step. Correctness = **valid JSON manifests** that resolve, enforced by `node scripts/validate.mjs` (CI runs it on every PR). Two tiers must stay consistent:
 
-1. **`.claude-plugin/marketplace.json`** — the catalog. Required fields: `name` (kebab-case), `owner` `{name, email?}`, `plugins[]`. Each plugin entry needs `name` + `source`. `metadata.pluginRoot` sets a base dir (`"plugins"`) so entries use bare relative paths.
+1. **`.claude-plugin/marketplace.json`** — the catalog. Required fields: `name` (kebab-case), `owner` `{name, email?}`, `plugins[]`. Each plugin entry needs `name` + `source`. `source` is a path **relative to the marketplace root** and must be the full path to the plugin directory (e.g. `"./plugins/rethunk-git"`) — do not rely on `metadata.pluginRoot`; the installed Claude Code does not prepend it.
 
 2. **`plugins/<name>/.claude-plugin/plugin.json`** — per-plugin manifest. Only `name` is required; set `version` (semver) to pin updates — omitting it makes Claude Code track the git commit SHA, so every push silently updates installed users.
 
