@@ -1,5 +1,6 @@
 # Rethunk Claude Plugins
 
+[![GitHub release](https://img.shields.io/github/v/release/Rethunk-Tech/claude-plugins?logo=github&label=release)](https://github.com/Rethunk-Tech/claude-plugins/releases/latest)
 [![License: Apache-2.0](https://img.shields.io/badge/license-Apache--2.0-blue.svg)](LICENSE)
 [![Claude Code](https://img.shields.io/badge/Claude%20Code-plugin%20marketplace-d97757.svg)](https://docs.claude.com/en/docs/claude-code/plugins)
 
