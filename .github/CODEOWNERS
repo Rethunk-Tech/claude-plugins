@@ -1,0 +1,6 @@
+# Default owner for everything in this repository.
+* @AlbinoGeek
+
+# Manifest changes are security-sensitive — see SECURITY.md.
+/.claude-plugin/ @AlbinoGeek
+/plugins/ @AlbinoGeek
