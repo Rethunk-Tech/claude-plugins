@@ -9,6 +9,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added
+
+- **`citadel-sdd`** plugin — bundles the `@rethunk/citadel-sdd` Citadel Spec-Driven Development MCP server, pinned to `0.5.0`. That version is not yet published to npmjs; the plugin works once Rethunk-AI publishes the release.
+
 ## [1.0.0] — 2026-05-22
 
 ### Added

@@ -24,12 +24,13 @@ plugins/<plugin-name>/              # One directory per plugin (source: "./plugi
   hooks/hooks.json                  # Event handlers
 ```
 
-Current plugins, both pure MCP re-exports of servers maintained in `Rethunk-AI/`:
+Current plugins, all pure MCP re-exports of servers maintained in `Rethunk-AI/`:
 
 | Plugin | Wraps npm package | Upstream repo |
 |--------|-------------------|---------------|
 | `rethunk-git` | `@rethunk/mcp-multi-root-git` | `Rethunk-AI/mcp-multi-root-git` |
 | `rethunk-github` | `@rethunk/github-mcp` | `Rethunk-AI/rethunk-github-mcp` |
+| `citadel-sdd` | `@rethunk/citadel-sdd` | `Rethunk-AI/citadel-sdd` |
 
 ## Architecture: the two-tier manifest model
 

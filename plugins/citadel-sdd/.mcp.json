@@ -1,0 +1,8 @@
+{
+  "mcpServers": {
+    "citadel-sdd": {
+      "command": "npx",
+      "args": ["-y", "@rethunk/citadel-sdd@0.5.0"]
+    }
+  }
+}

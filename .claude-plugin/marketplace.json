@@ -20,6 +20,11 @@
       "name": "rethunk-github",
       "source": "./rethunk-github",
       "description": "GitHub rollup MCP server: multi-repo dashboards, PR preflight, CI diagnosis, releases, and write tools."
+    },
+    {
+      "name": "citadel-sdd",
+      "source": "./citadel-sdd",
+      "description": "Citadel Spec-Driven Development MCP server: spec lifecycle, task tracking, lint, and status for agent workflows."
     }
   ]
 }

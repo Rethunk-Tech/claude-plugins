@@ -10,6 +10,7 @@ A [Claude Code plugin marketplace](https://docs.claude.com/en/docs/claude-code/p
 - **One-command install** — `claude plugin marketplace add Rethunk-Tech/claude-plugins`, then install any plugin by name.
 - **`rethunk-git`** — multi-root git MCP server: status, inventory, HEAD parity, diffs, batch commit, push, merge, worktrees. No token required.
 - **`rethunk-github`** — GitHub rollup MCP server: multi-repo dashboards, PR preflight, CI diagnosis, releases, and write tools.
+- **`citadel-sdd`** — Citadel Spec-Driven Development MCP server: the spec lifecycle, task tracking, lint, and status for agent workflows.
 - **Reproducible** — each plugin pins its MCP server to an exact npm version; no GitHub Packages auth needed to install.
 - **Secret-free manifests** — tokens are forwarded from the environment, never committed.
 

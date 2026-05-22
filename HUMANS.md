@@ -17,6 +17,7 @@ Refresh later with `claude plugin marketplace update`.
 ```sh
 claude plugin install rethunk-git@rethunk-marketplace
 claude plugin install rethunk-github@rethunk-marketplace
+claude plugin install citadel-sdd@rethunk-marketplace
 ```
 
 `rethunk-marketplace` is the marketplace `name` (from `marketplace.json`) — it does not have to match the repository name. Add `--scope user|project|local` to control where the install is recorded.
@@ -37,6 +38,14 @@ Bundles the GitHub rollup MCP server (`@rethunk/github-mcp`). Tools surface as `
 
 **Requirements:** Node.js ≥ 22. A **GitHub token** is required for every tool except `gh_auth_status`. Export `GITHUB_TOKEN` in the environment that launches Claude Code (scopes: `repo`, plus `read:org` for `org_pulse`); the plugin's `.mcp.json` forwards it via `${GITHUB_TOKEN}`. For GitHub Enterprise, also export `GITHUB_API_URL` / `GITHUB_GRAPHQL_URL` and add them to the `env` block.
 
+### citadel-sdd
+
+Bundles the Citadel Spec-Driven Development MCP server (`@rethunk/citadel-sdd`). Tools surface as `mcp__citadel-sdd__<tool>` — the spec lifecycle (`spec_init`, `spec_claim`, `spec_handoff`, `spec_approve`, `spec_ratify`, `spec_park`, `spec_close`, …), task tracking (`spec_task_add`, `spec_task_check`, `spec_task_list`), plus `spec_lint`, `spec_status`, and `sdd_doctor`. Local-only — no telemetry, no remote API.
+
+**Requirements:** Node.js ≥ 22; Git ≥ 2.28 (the server's file-system and commit tools shell out to `git`). No token needed.
+
+> **Pre-publication note:** this plugin pins `@rethunk/citadel-sdd@0.5.0`, which is not yet on npmjs as of 2026-05-22. Installing `citadel-sdd` will fail until Rethunk-AI publishes that release; the pin is in place so the plugin works the moment it lands.
+
 ## Source registries
 
 Each MCP server is published under two names. The plugins here pin the **npmjs** package with an exact version, so installs need no extra registry configuration.
@@ -45,6 +54,7 @@ Each MCP server is published under two names. The plugins here pin the **npmjs**
 |--------|---------------------|----------------------------------|
 | git | `@rethunk/mcp-multi-root-git` | `@rethunk-ai/mcp-multi-root-git` |
 | github | `@rethunk/github-mcp` | `@rethunk-ai/github-mcp` |
+| citadel-sdd | `@rethunk/citadel-sdd` | `@rethunk-ai/citadel-sdd` |
 
 To track the CI-aligned GitHub Packages build instead, configure `@rethunk-ai:registry` with a `read:packages` token (see each upstream repo's `docs/install.md`) and edit the plugin's `.mcp.json`.
 
