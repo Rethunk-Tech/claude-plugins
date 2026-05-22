@@ -1,0 +1,13 @@
+{
+  "$schema": "https://www.schemastore.org/claude-code-plugin-manifest.json",
+  "name": "rethunk-git",
+  "version": "2.5.0",
+  "description": "Multi-root git MCP server for Claude Code: status, multi-root inventory, HEAD parity, presets, logs, structured/raw diffs, commit inspection, fetch, stash, tag, batch commit, push, merge, cherry-pick, worktrees, and soft-reset.",
+  "author": {
+    "name": "Rethunk-AI"
+  },
+  "homepage": "https://github.com/Rethunk-AI/mcp-multi-root-git#readme",
+  "repository": "https://github.com/Rethunk-AI/mcp-multi-root-git",
+  "license": "Apache-2.0",
+  "keywords": ["mcp", "git", "multi-root", "worktree"]
+}

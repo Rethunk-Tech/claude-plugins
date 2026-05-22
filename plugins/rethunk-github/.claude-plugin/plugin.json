@@ -1,0 +1,13 @@
+{
+  "$schema": "https://www.schemastore.org/claude-code-plugin-manifest.json",
+  "name": "rethunk-github",
+  "version": "1.1.0",
+  "description": "GitHub rollup MCP server for Claude Code: multi-repo dashboards, my-work queue, PR preflight, release readiness, CI diagnosis, org pulse, pin drift, and write-capable tools (PR/issue/release/labels/check-run).",
+  "author": {
+    "name": "Rethunk-AI"
+  },
+  "homepage": "https://github.com/Rethunk-AI/rethunk-github-mcp#readme",
+  "repository": "https://github.com/Rethunk-AI/rethunk-github-mcp",
+  "license": "Apache-2.0",
+  "keywords": ["mcp", "github", "rollup", "ci", "pull-request"]
+}

@@ -1,0 +1,11 @@
+{
+  "mcpServers": {
+    "rethunk-github": {
+      "command": "npx",
+      "args": ["-y", "@rethunk/github-mcp@1.1.0"],
+      "env": {
+        "GITHUB_TOKEN": "${GITHUB_TOKEN}"
+      }
+    }
+  }
+}

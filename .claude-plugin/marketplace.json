@@ -1,0 +1,24 @@
+{
+  "$schema": "https://www.schemastore.org/claude-code-marketplace.json",
+  "name": "rethunk-marketplace",
+  "description": "Rethunk's catalog of Claude Code plugins — prompts, agents, and MCP servers.",
+  "owner": {
+    "name": "Rethunk-Tech",
+    "email": "oss@rethunk.tech"
+  },
+  "metadata": {
+    "pluginRoot": "plugins"
+  },
+  "plugins": [
+    {
+      "name": "rethunk-git",
+      "source": "./rethunk-git",
+      "description": "Multi-root git MCP server: status, inventory, HEAD parity, diffs, batch commit, push, merge, worktrees."
+    },
+    {
+      "name": "rethunk-github",
+      "source": "./rethunk-github",
+      "description": "GitHub rollup MCP server: multi-repo dashboards, PR preflight, CI diagnosis, releases, and write tools."
+    }
+  ]
+}
