@@ -15,6 +15,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Changed
 
 - `validate.mjs` now requires every `plugin.json` to declare a `version`. Without one, Claude Code tracks the commit SHA and silently updates all installed users — the validator now catches this.
+- **`rethunk-git`** bumped to `2.6.0` (`@rethunk/mcp-multi-root-git@2.6.0`).
+- **`rethunk-github`** bumped to `1.2.0` (`@rethunk/github-mcp@1.2.0`).
+- **`citadel-sdd`** bumped to `0.6.0` (`@rethunk/citadel-sdd@0.6.0`).
 
 ## [1.1.0] — 2026-05-22
 
