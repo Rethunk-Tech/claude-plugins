@@ -1,0 +1,35 @@
+name: Bug report
+description: A plugin from this marketplace fails to install or misbehaves.
+labels: [bug]
+body:
+  - type: dropdown
+    id: plugin
+    attributes:
+      label: Plugin
+      options:
+        - rethunk-git
+        - rethunk-github
+        - citadel-sdd
+        - (the marketplace itself)
+    validations:
+      required: true
+  - type: textarea
+    id: what
+    attributes:
+      label: What happened
+      description: Include the exact command and any error output.
+    validations:
+      required: true
+  - type: textarea
+    id: expected
+    attributes:
+      label: What you expected
+    validations:
+      required: true
+  - type: input
+    id: env
+    attributes:
+      label: Environment
+      description: Claude Code version, OS, and Node.js version.
+    validations:
+      required: true

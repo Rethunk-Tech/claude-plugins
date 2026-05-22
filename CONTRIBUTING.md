@@ -8,7 +8,7 @@ Rethunk-Tech internal project. External PRs are not expected, but the process is
 - **Node.js ≥ 22** — to smoke-test an MCP-bundling plugin (`npx`).
 - **Git ≥ 2.28**.
 
-There is no build, test runner, or dependency install — this repository is JSON manifests and Markdown.
+There is no build or dependency install — this repository is JSON manifests and Markdown. The only check is `scripts/validate.mjs` (plain Node, no dependencies), which CI also runs.
 
 ## Adding or updating a plugin
 
@@ -21,14 +21,17 @@ There is no build, test runner, or dependency install — this repository is JSO
 
 ## Validation
 
-Run before every commit — there is no CI gate, so this is the only check:
+`scripts/validate.mjs` parses every manifest, cross-checks each marketplace entry `name` against its `plugin.json` `name`, confirms `source` paths resolve, asserts version pins match `plugin.json` `version`, and rejects hardcoded secrets in `.mcp.json`. CI (`.github/workflows/ci.yml`) runs it on every PR and push to `main`. Run it locally before committing:
 
 ```sh
-claude plugin validate ./plugins/<plugin-name>     # validate one plugin
+node scripts/validate.mjs                          # full catalog check (what CI runs)
+claude plugin validate ./plugins/<plugin-name>     # deeper per-plugin check
 claude plugin marketplace add ./ --scope local     # smoke-test the catalog locally
 ```
 
-Confirm every JSON file parses (a trailing comma breaks installation for all users) and that each marketplace entry `name` matches its `plugin.json` `name`.
+A trailing comma or an unmatched `name` breaks installation for every user — `validate.mjs` is the gate that catches it.
+
+A scheduled workflow (`.github/workflows/drift-check.yml`) runs `scripts/check-drift.mjs` weekly, comparing each `.mcp.json` version pin against npm `latest` and opening an issue when an upstream MCP server has a newer release.
 
 ## Commit conventions
 
@@ -51,8 +54,8 @@ One logical unit per commit. Scope to a single plugin where possible.
 
 ## Pull request checklist
 
+- [ ] `node scripts/validate.mjs` passes.
 - [ ] `claude plugin validate` passes for every changed plugin.
-- [ ] Catalog smoke-tests: `claude plugin marketplace add ./ --scope local`.
 - [ ] Marketplace entry `name` matches the plugin manifest `name`.
 - [ ] MCP version pins in `.mcp.json` match the `plugin.json` `version`.
 - [ ] No secrets in any `.mcp.json` — only `${VAR}` references.

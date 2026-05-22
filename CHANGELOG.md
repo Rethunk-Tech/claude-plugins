@@ -7,6 +7,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added
+
+- **CI** (`.github/workflows/ci.yml`) — runs `scripts/validate.mjs` on every PR and push: parses every manifest, cross-checks marketplace ↔ plugin `name`, verifies `source` paths resolve, asserts version pins match `plugin.json`, and rejects hardcoded secrets.
+- **Upstream drift check** (`.github/workflows/drift-check.yml`) — weekly scheduled run of `scripts/check-drift.mjs` compares each `.mcp.json` pin against npm `latest` and opens an issue on drift.
+- Issue forms (`.github/ISSUE_TEMPLATE/`), a pull-request template, and `.gitignore`.
+
 ## [1.1.0] — 2026-05-22
 
 ### Added

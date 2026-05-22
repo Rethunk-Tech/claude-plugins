@@ -1,0 +1,11 @@
+# Local registry auth — never commit (see SECURITY.md)
+.npmrc
+
+# Transient CI artifact from scripts/check-drift.mjs
+drift-report.md
+
+# Packaged tarballs
+*.tgz
+
+# OS / editor junk
+.DS_Store

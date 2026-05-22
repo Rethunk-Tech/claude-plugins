@@ -22,6 +22,9 @@ plugins/<plugin-name>/              # One directory per plugin (source: "./plugi
   skills/<name>/SKILL.md            # Model-invoked skills
   agents/*.md                       # Subagent definitions
   hooks/hooks.json                  # Event handlers
+scripts/validate.mjs                # Manifest validator — CI gate, run locally too
+scripts/check-drift.mjs             # Pin-vs-npm-latest drift report
+.github/workflows/                  # ci.yml (validate) + drift-check.yml (weekly)
 ```
 
 Current plugins, all pure MCP re-exports of servers maintained in `Rethunk-AI/`:
@@ -34,7 +37,7 @@ Current plugins, all pure MCP re-exports of servers maintained in `Rethunk-AI/`:
 
 ## Architecture: the two-tier manifest model
 
-There is no build, test, or run step. Correctness = **valid JSON manifests** that resolve. Two tiers must stay consistent:
+There is no build or run step. Correctness = **valid JSON manifests** that resolve, enforced by `node scripts/validate.mjs` (CI runs it on every PR). Two tiers must stay consistent:
 
 1. **`.claude-plugin/marketplace.json`** — the catalog. Required fields: `name` (kebab-case), `owner` `{name, email?}`, `plugins[]`. Each plugin entry needs `name` + `source`. `metadata.pluginRoot` sets a base dir (`"plugins"`) so entries use bare relative paths.
 

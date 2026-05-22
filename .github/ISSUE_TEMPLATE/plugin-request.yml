@@ -1,0 +1,25 @@
+name: Plugin request
+description: Propose a new plugin for the marketplace.
+labels: [enhancement]
+body:
+  - type: input
+    id: name
+    attributes:
+      label: Proposed plugin name
+      description: kebab-case.
+    validations:
+      required: true
+  - type: textarea
+    id: what
+    attributes:
+      label: What it provides
+      description: MCP server, slash commands, agents, or hooks — and what it wraps.
+    validations:
+      required: true
+  - type: input
+    id: source
+    attributes:
+      label: Upstream source
+      description: npm package and/or repository.
+    validations:
+      required: true
