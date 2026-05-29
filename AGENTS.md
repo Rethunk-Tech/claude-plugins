@@ -23,8 +23,14 @@ plugins/<plugin-name>/              # One directory per plugin (source: "./plugi
   agents/*.md                       # Subagent definitions
   hooks/hooks.json                  # Event handlers
 scripts/validate.mjs                # Manifest validator — CI gate, run locally too
-scripts/check-drift.mjs             # Pin-vs-npm-latest drift report
-.github/workflows/                  # ci.yml (validate) + drift-check.yml (weekly)
+scripts/validate.test.mjs           # node:test suite for the validator (run with node --test)
+scripts/check-drift.mjs             # Pin-vs-npm-latest drift report (--apply rewrites pins)
+package.json                        # test/validate/drift scripts; zero dependencies
+.github/workflows/
+  ci.yml                            # validate manifests + claude plugin validate per plugin
+  drift-check.yml                   # weekly; opens a bump PR on drift
+  release.yml                       # vX.Y.Z tag → GitHub Release
+.github/dependabot.yml              # weekly github-actions SHA updates
 ```
 
 Current plugins, all pure MCP re-exports of servers maintained in `Rethunk-AI/`:
