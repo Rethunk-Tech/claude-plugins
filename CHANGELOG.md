@@ -21,6 +21,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - `scripts/check-drift.mjs` now reports `npm view` failures as errors and exits non-zero instead of masking them as "all pins current"; adds an `--apply` mode that rewrites drifted pins in lockstep and prepends a CHANGELOG entry.
 - `.github/workflows/drift-check.yml` opens a reviewable pull request (not an issue) when an upstream MCP server has a newer release, staging the lockstep bump for human review — never auto-merged.
 - All GitHub Actions are pinned to commit SHAs (was mutable `@v6` tags).
+- CI pins the `@anthropic-ai/claude-code` CLI install to an exact version (was floating `latest`), matching the repo's exact-pin doctrine.
 
 ## [1.2.0] — 2026-05-22
 

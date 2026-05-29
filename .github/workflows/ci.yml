@@ -38,7 +38,7 @@ jobs:
           node-version: "24"
 
       - name: Install Claude Code CLI
-        run: npm install -g @anthropic-ai/claude-code
+        run: npm install -g @anthropic-ai/claude-code@2.1.156
 
       - name: Run claude plugin validate for each plugin
         run: |
