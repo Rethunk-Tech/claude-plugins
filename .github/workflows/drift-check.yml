@@ -6,16 +6,16 @@ on:
   workflow_dispatch:
 
 permissions:
-  contents: read
-  issues: write
+  contents: write
+  pull-requests: write
 
 jobs:
   drift:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6
 
-      - uses: actions/setup-node@v6
+      - uses: actions/setup-node@48b55a011bda9f5d6aeb4c2d9c7362e8dae4041e # v6
         with:
           node-version: "24"
 
@@ -23,17 +23,66 @@ jobs:
         id: check
         run: node scripts/check-drift.mjs
 
-      - name: Open or update drift issue
+      - name: Apply drift bump
+        if: steps.check.outputs.drift == 'true'
+        run: node scripts/check-drift.mjs --apply
+
+      - name: Open drift bump pull request
         if: steps.check.outputs.drift == 'true'
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           set -euo pipefail
-          title="Upstream MCP version drift"
-          existing=$(gh issue list --state open --search "$title in:title" \
+
+          pr_title="chore: bump drifted MCP pins"
+          branch="chore/drift-bump-${{ github.run_id }}"
+
+          # De-dup: skip if an open PR with the same stable title already exists.
+          existing=$(gh pr list --state open --search "$pr_title in:title" \
             --json number --jq '.[0].number // empty')
           if [ -n "$existing" ]; then
-            gh issue comment "$existing" --body-file drift-report.md
-          else
-            gh issue create --title "$title" --body-file drift-report.md
+            echo "Drift PR #${existing} already open — skipping."
+            exit 0
           fi
+
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git checkout -b "$branch"
+          git add -A
+          git commit -m "chore: bump drifted MCP pins (run ${{ github.run_id }})"
+          git push origin "$branch"
+
+          # Build PR body: preamble + drift report + security reminder.
+          # Write preamble and footer via node to avoid shellcheck SC2016 false positives
+          # on Markdown backtick-quoted tokens inside printf single-quoted strings.
+          node -e "
+            const fs = require('fs');
+            const report = fs.readFileSync('drift-report.md', 'utf8');
+            const body = [
+              '## Upstream MCP version drift detected',
+              '',
+              'The scheduled drift check found one or more MCP server pins that lag behind',
+              'the published npm \`latest\`. The \`--apply\` mode has bumped the pins in',
+              '\`plugins/*/.mcp.json\` and \`plugins/*/.claude-plugin/plugin.json\` and',
+              'prepended a \`CHANGELOG.md\` \`[Unreleased]\` entry.',
+              '',
+              '**Full drift report:**',
+              '',
+              report.trim(),
+              '',
+              '---',
+              '',
+              '> **SECURITY REMINDER:** Review the upstream package release notes and',
+              '> changelogs before merging to confirm no breaking or malicious changes.',
+              '> See [SECURITY.md](SECURITY.md) for the supply-chain review policy.',
+              '',
+              'Do **not** auto-merge this PR.',
+            ].join('\n');
+            fs.writeFileSync('/tmp/pr-body.md', body);
+          "
+
+          gh pr create \
+            --title "$pr_title" \
+            --base main \
+            --head "$branch" \
+            --body-file /tmp/pr-body.md

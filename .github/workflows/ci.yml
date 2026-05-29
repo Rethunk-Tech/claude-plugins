@@ -12,11 +12,38 @@ jobs:
   validate:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6
 
-      - uses: actions/setup-node@v6
+      - uses: actions/setup-node@48b55a011bda9f5d6aeb4c2d9c7362e8dae4041e # v6
         with:
           node-version: "24"
 
       - name: Validate marketplace and plugin manifests
         run: node scripts/validate.mjs
+
+  claude-plugin-validate:
+    runs-on: ubuntu-latest
+    # Separate job so a Claude Code install failure never blocks the core gate.
+    # `claude plugin validate` is a static structural check and should not require auth,
+    # but isolating it here ensures the required `validate` job above always passes
+    # on manifest errors regardless of CLI availability.
+    needs: validate
+    env:
+      CI: "true"
+    steps:
+      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6
+
+      - uses: actions/setup-node@48b55a011bda9f5d6aeb4c2d9c7362e8dae4041e # v6
+        with:
+          node-version: "24"
+
+      - name: Install Claude Code CLI
+        run: npm install -g @anthropic-ai/claude-code
+
+      - name: Run claude plugin validate for each plugin
+        run: |
+          set -euo pipefail
+          for plugin_dir in plugins/*/; do
+            echo "Validating ${plugin_dir} ..."
+            claude plugin validate "./${plugin_dir}"
+          done
