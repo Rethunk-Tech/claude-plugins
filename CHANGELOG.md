@@ -13,6 +13,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - CI job running `claude plugin validate` per plugin alongside the existing `node scripts/validate.mjs` gate.
 - `.github/workflows/release.yml` — on a `vX.Y.Z` tag, verifies the tag matches `marketplace.json` `version`, validates all manifests, and publishes a GitHub Release from the matching `CHANGELOG.md` section.
 - `.github/dependabot.yml` — weekly `github-actions` ecosystem updates to keep SHA-pinned actions current.
+- Test coverage for `scripts/check-drift.mjs` `--apply` rewrite logic (pin/version rewrites, `CHANGELOG` patching, npm-view failure handling) and for the validator's exact-pin enforcement, including unscoped npm specs.
 
 ### Changed
 
