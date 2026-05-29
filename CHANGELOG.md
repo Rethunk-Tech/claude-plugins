@@ -11,6 +11,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - `scripts/validate.test.mjs` — `node:test` regression suite for the manifest validator; run with `node --test`. Paired with a root `package.json` exposing `test`, `validate`, and `drift` scripts. Zero dependencies.
 - CI job running `claude plugin validate` per plugin alongside the existing `node scripts/validate.mjs` gate.
+- CI now runs the `node:test` suite (`node --test`) on every PR and push, so the validator and drift-script regression tests gate merges.
 - `.github/workflows/release.yml` — on a `vX.Y.Z` tag, verifies the tag matches `marketplace.json` `version`, validates all manifests, and publishes a GitHub Release from the matching `CHANGELOG.md` section.
 - `.github/dependabot.yml` — weekly `github-actions` ecosystem updates to keep SHA-pinned actions current.
 - Test coverage for `scripts/check-drift.mjs` `--apply` rewrite logic (pin/version rewrites, `CHANGELOG` patching, npm-view failure handling) and for the validator's exact-pin enforcement, including unscoped npm specs.

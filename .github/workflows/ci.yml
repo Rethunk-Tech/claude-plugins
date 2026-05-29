@@ -21,6 +21,9 @@ jobs:
       - name: Validate marketplace and plugin manifests
         run: node scripts/validate.mjs
 
+      - name: Run unit tests
+        run: node --test
+
   claude-plugin-validate:
     runs-on: ubuntu-latest
     # Separate job so a Claude Code install failure never blocks the core gate.
