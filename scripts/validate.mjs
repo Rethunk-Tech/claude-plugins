@@ -2,7 +2,7 @@
 // Validates the marketplace catalog and every plugin manifest.
 // No dependencies — runs on plain Node. CI runs this on every PR and push.
 
-import { existsSync, readFileSync } from "node:fs";
+import { existsSync, readFileSync, readdirSync } from "node:fs";
 import { join } from "node:path";
 
 const root = process.cwd();
@@ -16,6 +16,40 @@ function readJson(path, label) {
     err(`${label}: invalid JSON — ${e.message}`);
     return null;
   }
+}
+
+// E8 — expanded secret patterns (applied to command, args, and env values).
+// A ${VAR} forwarding reference is explicitly safe — skip exact matches.
+const SECRET_PATTERNS = [
+  /(ghp_|github_pat_|sk-|npm_)[A-Za-z0-9]/,
+  /AKIA[0-9A-Z]{16}/,
+  /glpat-[A-Za-z0-9_-]{20,}/,
+  /xox[baprs]-[A-Za-z0-9-]+/,
+];
+
+function isEnvRef(v) {
+  return /^\$\{[^}]+\}$/.test(v);
+}
+
+function looksLikeSecret(v) {
+  if (isEnvRef(v)) return false;
+  return SECRET_PATTERNS.some((p) => p.test(v));
+}
+
+// E1 — determine whether a server is npm/npx-sourced and enforce exact pin.
+// Exact pin = @scope/name@X.Y.Z where X.Y.Z is plain semver digits, nothing else.
+const EXACT_PIN_RE = /@[^@\s]+@\d+\.\d+\.\d+$/;
+
+function findPackageSpecArg(args) {
+  // The package spec arg starts with @ (scoped) or is an npm package name.
+  // We only flag scoped packages (@scope/name) since those are the ones used here.
+  return args.find((a) => a.startsWith("@"));
+}
+
+function isNpmNpxServer(cfg) {
+  if (cfg.command === "npx") return true;
+  const args = (cfg.args ?? []).map(String);
+  return args.some((a) => a.startsWith("@"));
 }
 
 const mk = readJson(join(root, ".claude-plugin/marketplace.json"), "marketplace.json");
@@ -66,17 +100,54 @@ if (mk) {
     if (!mcp) continue;
 
     for (const [server, cfg] of Object.entries(mcp.mcpServers ?? {})) {
+      const args = (cfg.args ?? []).map(String);
+
+      // E8 — scan command, args, and env values for hardcoded secrets.
+      if (typeof cfg.command === "string" && looksLikeSecret(cfg.command)) {
+        err(`plugin "${label}" server "${server}": command looks like a hardcoded secret — use \${VAR}`);
+      }
+      for (let i = 0; i < args.length; i++) {
+        if (looksLikeSecret(args[i])) {
+          err(`plugin "${label}" server "${server}": args[${i}] looks like a hardcoded secret — use \${VAR}`);
+        }
+      }
       for (const [k, v] of Object.entries(cfg.env ?? {})) {
-        if (typeof v === "string" && /(ghp_|github_pat_|sk-|npm_)[A-Za-z0-9]/.test(v)) {
+        if (typeof v === "string" && looksLikeSecret(v)) {
           err(`plugin "${label}" server "${server}": env "${k}" looks like a hardcoded secret — use \${VAR}`);
         }
       }
-      const pin = (cfg.args ?? []).map(String).find((a) => /@[^@]+@\d+\.\d+\.\d+/.test(a));
-      if (pin && manifest.version) {
-        const m = pin.match(/@(\d+\.\d+\.\d+)$/);
-        if (m && m[1] !== manifest.version) {
-          err(`plugin "${label}": .mcp.json pins ${m[1]} but plugin.json version is ${manifest.version} — keep them in lockstep`);
+
+      // E1 — enforce exact npm/npx pin.
+      if (isNpmNpxServer(cfg)) {
+        const spec = findPackageSpecArg(args);
+        if (spec !== undefined) {
+          if (!EXACT_PIN_RE.test(spec)) {
+            err(`plugin "${label}" server "${server}": package "${spec}" is not pinned to an exact version — use @scope/name@X.Y.Z (SECURITY.md: never latest or a range)`);
+          } else if (manifest.version) {
+            // Existing lockstep check: pin version must equal plugin.json version.
+            const m = spec.match(/@(\d+\.\d+\.\d+)$/);
+            if (m && m[1] !== manifest.version) {
+              err(`plugin "${label}": .mcp.json pins ${m[1]} but plugin.json version is ${manifest.version} — keep them in lockstep`);
+            }
+          }
         }
+      }
+    }
+  }
+
+  // E7 — orphan plugin detection: scan plugins/ for directories with a plugin.json
+  // that are not registered in marketplace.json.
+  const pluginsDir = join(root, "plugins");
+  if (existsSync(pluginsDir)) {
+    for (const dirName of readdirSync(pluginsDir, { withFileTypes: true })
+      .filter((d) => d.isDirectory())
+      .map((d) => d.name)) {
+      const pluginJson = join(pluginsDir, dirName, ".claude-plugin/plugin.json");
+      if (!existsSync(pluginJson)) continue;
+      const pluginManifest = readJson(pluginJson, `plugins/${dirName}/plugin.json`);
+      const matchKey = pluginManifest?.name ?? dirName;
+      if (!seen.has(matchKey)) {
+        err(`plugin directory "plugins/${dirName}" has a plugin.json but is not registered in marketplace.json`);
       }
     }
   }
