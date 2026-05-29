@@ -1,0 +1,65 @@
+name: Release
+
+on:
+  push:
+    tags:
+      - "v*.*.*"
+
+permissions:
+  contents: write
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6
+
+      - uses: actions/setup-node@48b55a011bda9f5d6aeb4c2d9c7362e8dae4041e # v6
+        with:
+          node-version: "24"
+
+      - name: Verify tag version matches marketplace.json
+        run: |
+          set -euo pipefail
+          tag_version="${GITHUB_REF_NAME#v}"
+          catalog_version=$(node -e "process.stdout.write(require('./.claude-plugin/marketplace.json').version)")
+          if [ "$tag_version" != "$catalog_version" ]; then
+            echo "ERROR: tag version '${tag_version}' does not match marketplace.json version '${catalog_version}'"
+            exit 1
+          fi
+          echo "Version check passed: ${tag_version}"
+
+      - name: Validate marketplace and plugin manifests
+        run: node scripts/validate.mjs
+
+      - name: Extract CHANGELOG section for this release
+        id: changelog
+        run: |
+          set -euo pipefail
+          tag_version="${GITHUB_REF_NAME#v}"
+          # Extract the ## [X.Y.Z] block: from the matching heading to the next ## heading
+          # (exclusive). Line-based — no version-regex escaping pitfalls.
+          body=$(node -e '
+            const fs = require("fs");
+            const ver = process.argv[1];
+            const lines = fs.readFileSync("CHANGELOG.md", "utf8").split("\n");
+            const start = lines.findIndex((l) => l.startsWith("## [" + ver + "]"));
+            if (start === -1) { process.stderr.write("No CHANGELOG section found for " + ver + "\n"); process.exit(1); }
+            let end = lines.length;
+            for (let i = start + 1; i < lines.length; i++) {
+              if (lines[i].startsWith("## ")) { end = i; break; }
+            }
+            process.stdout.write(lines.slice(start + 1, end).join("\n").trim());
+          ' "$tag_version")
+          # Write to a temp file so the multiline body survives the shell boundary.
+          printf '%s' "$body" > /tmp/release-body.md
+          echo "body_file=/tmp/release-body.md" >> "$GITHUB_OUTPUT"
+
+      - name: Create GitHub Release
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          set -euo pipefail
+          gh release create "$GITHUB_REF_NAME" \
+            --title "$GITHUB_REF_NAME" \
+            --notes-file "${{ steps.changelog.outputs.body_file }}"
