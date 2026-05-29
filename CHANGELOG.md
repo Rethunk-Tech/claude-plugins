@@ -7,6 +7,20 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added
+
+- `scripts/validate.test.mjs` — `node:test` regression suite for the manifest validator; run with `node --test`. Paired with a root `package.json` exposing `test`, `validate`, and `drift` scripts. Zero dependencies.
+- CI job running `claude plugin validate` per plugin alongside the existing `node scripts/validate.mjs` gate.
+- `.github/workflows/release.yml` — on a `vX.Y.Z` tag, verifies the tag matches `marketplace.json` `version`, validates all manifests, and publishes a GitHub Release from the matching `CHANGELOG.md` section.
+- `.github/dependabot.yml` — weekly `github-actions` ecosystem updates to keep SHA-pinned actions current.
+
+### Changed
+
+- `scripts/validate.mjs` now enforces exact-version pins on npm/npx MCP servers (rejects `latest`, ranges, and unpinned specs — previously a documented-but-unenforced SECURITY.md invariant), detects orphan plugin directories not registered in `marketplace.json`, and scans `command`, `args`, and `env` for hardcoded secrets with a broadened pattern set (GitHub/OpenAI/npm tokens, AWS AKIA, GitLab `glpat-`, Slack `xox*`); `${VAR}` references remain safe.
+- `scripts/check-drift.mjs` now reports `npm view` failures as errors and exits non-zero instead of masking them as "all pins current"; adds an `--apply` mode that rewrites drifted pins in lockstep and prepends a CHANGELOG entry.
+- `.github/workflows/drift-check.yml` opens a reviewable pull request (not an issue) when an upstream MCP server has a newer release, staging the lockstep bump for human review — never auto-merged.
+- All GitHub Actions are pinned to commit SHAs (was mutable `@v6` tags).
+
 ## [1.2.0] — 2026-05-22
 
 ### Fixed
