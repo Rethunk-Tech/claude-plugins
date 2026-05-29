@@ -312,6 +312,60 @@ describe("validate.mjs", () => {
   });
 
   // -------------------------------------------------------------------------
+  // T8: Unscoped npx package with @latest tag — must be rejected (exit 1)
+  // -------------------------------------------------------------------------
+  it("T8 – unscoped npx package pinned to @latest exits 1 with exact-pin message", () => {
+    const dir = makeTempDir();
+    try {
+      validMarketplace(dir, {
+        mcpOverride: {
+          mcpServers: {
+            "test-server": {
+              command: "npx",
+              args: ["-y", "some-server@latest"],
+            },
+          },
+        },
+      });
+      const { status, stderr } = runValidate(dir);
+      assert.equal(status, 1, "expected exit 1 for unscoped @latest spec");
+      const hasPinMessage =
+        /exact version/i.test(stderr) || /pinned/i.test(stderr);
+      assert.ok(
+        hasPinMessage,
+        `expected a pin-related message in stderr; got: ${stderr}`
+      );
+    } finally {
+      rmSync(dir, { recursive: true, force: true });
+    }
+  });
+
+  // -------------------------------------------------------------------------
+  // T9: Unscoped npx package with exact version — must pass (exit 0, no false positive)
+  // -------------------------------------------------------------------------
+  it("T9 – unscoped npx package with exact version exits 0 (no false positive)", () => {
+    const dir = makeTempDir();
+    try {
+      validMarketplace(dir, {
+        pluginVersion: "2.3.4",
+        mcpOverride: {
+          mcpServers: {
+            "test-server": {
+              command: "npx",
+              args: ["-y", "some-server@2.3.4"],
+            },
+          },
+        },
+      });
+      const { status, stdout } = runValidate(dir);
+      assert.equal(status, 0, "expected exit 0 for unscoped exactly-pinned spec");
+      assert.match(stdout, /valid/, "expected success message on stdout");
+    } finally {
+      rmSync(dir, { recursive: true, force: true });
+    }
+  });
+
+  // -------------------------------------------------------------------------
   // T7: Orphan plugin directory — PENDING E7 INTEGRATION
   //
   // validate.mjs does not yet scan plugins/ for directories not listed in

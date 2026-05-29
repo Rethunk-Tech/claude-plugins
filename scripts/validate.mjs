@@ -37,12 +37,25 @@ function looksLikeSecret(v) {
 }
 
 // E1 — determine whether a server is npm/npx-sourced and enforce exact pin.
-// Exact pin = @scope/name@X.Y.Z where X.Y.Z is plain semver digits, nothing else.
-const EXACT_PIN_RE = /@[^@\s]+@\d+\.\d+\.\d+$/;
+// Exact pin = @scope/name@X.Y.Z OR name@X.Y.Z where X.Y.Z is plain semver digits, nothing else.
+const EXACT_PIN_RE = /^(?:@[^@\s/]+\/)?[^@\s/]+@\d+\.\d+\.\d+$/;
 
-function findPackageSpecArg(args) {
-  // The package spec arg starts with @ (scoped) or is an npm package name.
-  // We only flag scoped packages (@scope/name) since those are the ones used here.
+function findPackageSpecArg(args, command) {
+  if (command === "npx") {
+    // Walk args to find the first non-flag, non-flag-value token.
+    // npx flags that take a value and whose value we must skip: -p / --package.
+    // All other tokens starting with '-' are boolean flags (skip them but not
+    // the next token).  Everything else is the package-spec (scoped or unscoped).
+    let skipNext = false;
+    for (const a of args) {
+      if (skipNext) { skipNext = false; continue; }
+      if (a === "-p" || a === "--package") { skipNext = true; continue; }
+      if (a.startsWith("-")) continue;
+      return a;
+    }
+    return undefined;
+  }
+  // Non-npx (e.g. node / local path): the package spec, if any, starts with '@'.
   return args.find((a) => a.startsWith("@"));
 }
 
@@ -119,7 +132,7 @@ if (mk) {
 
       // E1 — enforce exact npm/npx pin.
       if (isNpmNpxServer(cfg)) {
-        const spec = findPackageSpecArg(args);
+        const spec = findPackageSpecArg(args, cfg.command);
         if (spec !== undefined) {
           if (!EXACT_PIN_RE.test(spec)) {
             err(`plugin "${label}" server "${server}": package "${spec}" is not pinned to an exact version — use @scope/name@X.Y.Z (SECURITY.md: never latest or a range)`);
