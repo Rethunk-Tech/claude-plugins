@@ -1,0 +1,10 @@
+{
+  "name": "rethunk-plugins-marketplace",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "test": "node --test",
+    "validate": "node scripts/validate.mjs",
+    "drift": "node scripts/check-drift.mjs"
+  }
+}
