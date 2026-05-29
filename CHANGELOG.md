@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [1.3.0] — 2026-05-29
+
 ### Added
 
 - `scripts/validate.test.mjs` — `node:test` regression suite for the manifest validator; run with `node --test`. Paired with a root `package.json` exposing `test`, `validate`, and `drift` scripts. Zero dependencies.
@@ -65,7 +67,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Repository documentation tier: `README.md`, `HUMANS.md`, `AGENTS.md`, `CONTRIBUTING.md`, `SECURITY.md`, and per-plugin `README.md` files.
 - `CODEOWNERS`, Apache-2.0 `LICENSE`.
 
-[Unreleased]: https://github.com/Rethunk-Tech/claude-plugins/compare/v1.2.0...HEAD
+[Unreleased]: https://github.com/Rethunk-Tech/claude-plugins/compare/v1.3.0...HEAD
+[1.3.0]: https://github.com/Rethunk-Tech/claude-plugins/compare/v1.2.0...v1.3.0
 [1.2.0]: https://github.com/Rethunk-Tech/claude-plugins/compare/v1.1.0...v1.2.0
 [1.1.0]: https://github.com/Rethunk-Tech/claude-plugins/compare/v1.0.0...v1.1.0
 [1.0.0]: https://github.com/Rethunk-Tech/claude-plugins/releases/tag/v1.0.0
