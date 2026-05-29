@@ -1,7 +1,7 @@
 {
   "$schema": "https://www.schemastore.org/claude-code-plugin-manifest.json",
   "name": "citadel-sdd",
-  "version": "0.6.0",
+  "version": "0.6.1",
   "description": "Citadel Spec-Driven Development MCP server for Claude Code: the spec lifecycle (init, claim, handoff, approve, block, ratify, park, close), task tracking, lint, and status — local-only, over stdio.",
   "author": {
     "name": "Rethunk-AI"

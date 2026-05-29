@@ -7,6 +7,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [1.4.0] — 2026-05-29
+
+### Changed
+
+- **`rethunk-git`** bumped to `2.8.0` (`@rethunk/mcp-multi-root-git@2.8.0`).
+- **`rethunk-github`** bumped to `1.3.0` (`@rethunk/github-mcp@1.3.0`).
+- **`citadel-sdd`** bumped to `0.6.1` (`@rethunk/citadel-sdd@0.6.1`).
+
 ## [1.3.0] — 2026-05-29
 
 ### Added

@@ -2,7 +2,7 @@
   "mcpServers": {
     "citadel-sdd": {
       "command": "npx",
-      "args": ["-y", "@rethunk/citadel-sdd@0.6.0"]
+      "args": ["-y", "@rethunk/citadel-sdd@0.6.1"]
     }
   }
 }
