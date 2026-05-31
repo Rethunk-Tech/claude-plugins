@@ -5,6 +5,11 @@
   "scripts": {
     "test": "node --test",
     "validate": "node scripts/validate.mjs",
-    "drift": "node scripts/check-drift.mjs"
+    "drift": "node scripts/check-drift.mjs",
+    "lint": "node -e \"process.exit(0)\"",
+    "format": "node -e \"process.exit(0)\"",
+    "typecheck": "node -e \"process.exit(0)\"",
+    "build": "node -e \"process.exit(0)\"",
+    "ci": "yarn lint && yarn typecheck && yarn test && yarn build && node scripts/validate.mjs && node scripts/check-drift.mjs"
   }
 }
