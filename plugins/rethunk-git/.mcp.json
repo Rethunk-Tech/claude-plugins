@@ -2,7 +2,7 @@
   "mcpServers": {
     "rethunk-git": {
       "command": "npx",
-      "args": ["-y", "@rethunk/mcp-multi-root-git@2.8.0"]
+      "args": ["-y", "@rethunk/mcp-multi-root-git@2.9.0"]
     }
   }
 }
