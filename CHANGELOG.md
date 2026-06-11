@@ -7,9 +7,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [1.5.0] — 2026-06-11
+
 ### Changed
 
-- **`rethunk-git`** bumped to `2.9.0` (`@rethunk/mcp-multi-root-git@2.9.0`).
+- **`rethunk-git`** bumped to `2.9.1` (`@rethunk/mcp-multi-root-git@2.9.1`, via `2.9.0`) — schema artifact refresh, insecure temp-file and TOCTOU fixes, SHA-pinned workflow actions.
+- **`rethunk-github`** bumped to `1.3.1` (`@rethunk/github-mcp@1.3.1`) — CI workflow hardening, dependency refresh, Linux tarball-selection fix.
 
 ## [1.4.0] — 2026-05-29
 
@@ -79,7 +82,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Repository documentation tier: `README.md`, `HUMANS.md`, `AGENTS.md`, `CONTRIBUTING.md`, `SECURITY.md`, and per-plugin `README.md` files.
 - `CODEOWNERS`, Apache-2.0 `LICENSE`.
 
-[Unreleased]: https://github.com/Rethunk-Tech/claude-plugins/compare/v1.3.0...HEAD
+[Unreleased]: https://github.com/Rethunk-Tech/claude-plugins/compare/v1.5.0...HEAD
+[1.5.0]: https://github.com/Rethunk-Tech/claude-plugins/compare/v1.4.0...v1.5.0
+[1.4.0]: https://github.com/Rethunk-Tech/claude-plugins/compare/v1.3.0...v1.4.0
 [1.3.0]: https://github.com/Rethunk-Tech/claude-plugins/compare/v1.2.0...v1.3.0
 [1.2.0]: https://github.com/Rethunk-Tech/claude-plugins/compare/v1.1.0...v1.2.0
 [1.1.0]: https://github.com/Rethunk-Tech/claude-plugins/compare/v1.0.0...v1.1.0
